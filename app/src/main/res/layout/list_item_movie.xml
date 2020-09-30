@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="movie"
             type="com.teddybrothers.androidlearning.model.Movie" />
@@ -27,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:scaleType="centerCrop"
-                app:imagePath="@{movie.backdropPath ?? movie.posterPath}"
+                app:imagePath="@{movie.posterPath}"
                 tools:src="@tools:sample/avatars" />
 
             <LinearLayout
