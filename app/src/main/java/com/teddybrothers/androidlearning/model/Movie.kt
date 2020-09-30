@@ -8,9 +8,9 @@ import java.io.Serializable
 
 class Movie  : Serializable{
     @SerializedName("popularity")
-    val popularity : Int = 0
+    val popularity : Double = 0.0
     @SerializedName("vote_count")
-    val voteCount : Int = 0
+    val voteCount : Double = 0.0
     @SerializedName("video")
     val isVideo : Boolean = false
     @SerializedName("poster_path")
@@ -30,7 +30,7 @@ class Movie  : Serializable{
     @SerializedName("title")
     val title : String = ""
     @SerializedName("vote_average")
-    val voteAverage : Int = 0
+    val voteAverage : Double = 0.0
     @SerializedName("overview")
     val overview : String = ""
     @SerializedName("release_date")
