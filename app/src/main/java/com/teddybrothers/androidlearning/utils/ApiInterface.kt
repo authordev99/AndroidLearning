@@ -8,10 +8,7 @@ import retrofit2.http.Query
 
 interface ApiInterface {
 
-    companion object {
-        var BASE_URL = "https://http://api.themoviedb.org/3/discover/"
-    }
-    @GET("/movie")
-    fun getMovieList(@Query("api_key") apiKey: String,@Query("sort_by") sortBy: String, @Query("page") page: Int): Call<MovieListOutput>
+    @GET("3/discover/movie")
+    fun getMovieList(@Query("api_key") apiKey: String,@Query("primary_release_date.lte") primaryReleaseDate : String = "2016-12-31",@Query("sort_by") sortBy: String, @Query("page") page: Int): Call<MovieListOutput>
 
 }
