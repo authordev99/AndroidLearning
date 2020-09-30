@@ -3,17 +3,18 @@ package com.teddybrothers.androidlearning
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.teddybrothers.androidlearning.adapter.RecyclerViewListener
+import com.teddybrothers.androidlearning.adapter.RecyclerviewAdapter
 import com.teddybrothers.androidlearning.model.Movie
-import com.teddybrothers.androidlearning.model.MovieListOutput
 import com.teddybrothers.androidlearning.viewmodel.MovieViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity(), RecyclerViewListener {
+class MainActivity : AppCompatActivity(),
+    RecyclerViewListener {
 
     companion object {
         const val RELEASE_DATE_DESC = "release_date.desc"
@@ -48,7 +49,8 @@ class MainActivity : AppCompatActivity(), RecyclerViewListener {
             MovieViewModel::class.java
         )
         recyclerview.layoutManager = LinearLayoutManager(this)
-        recyclerviewAdapter = RecyclerviewAdapter(this)
+        recyclerviewAdapter =
+            RecyclerviewAdapter(this)
         recyclerview.adapter = recyclerviewAdapter
 
     }
