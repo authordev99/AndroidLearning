@@ -15,198 +15,214 @@
 
     </data>
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            tools:context=".view.DetailMovieActivity">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingBottom="8dp">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:scaleType="centerCrop"
-                app:imagePath="@{(movieDetail.backdropPath ?? movieDetail.posterPath)}"
-                tools:src="@tools:sample/avatars" />
-
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                app:cardElevation="2dp">
+                android:orientation="vertical"
+                tools:context=".view.DetailMovieActivity">
 
-                <LinearLayout
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:scaleType="centerCrop"
+                    app:imagePath="@{(movieDetail.backdropPath ?? movieDetail.posterPath)}"
+                    tools:src="@tools:sample/avatars" />
+
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="120dp"
-                        android:layout_height="150dp"
-                        android:scaleType="centerCrop"
-                        app:imagePath="@{movieDetail.posterPath}"
-                        tools:src="@tools:sample/avatars" />
+                    android:layout_margin="8dp"
+                    app:cardElevation="2dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical"
-                        android:padding="8dp">
+                        android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="4dp"
-                            android:text="@{movieDetail.title}"
-                            android:textColor="@android:color/black"
-                            android:textSize="16sp"
-                            tools:text="Avenger" />
-
-                        <RatingBar
-                            android:id="@+id/overallRating"
-                            style="@style/Widget.AppCompat.RatingBar.Indicator"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:isIndicator="false"
-                            android:max="5"
-                            android:numStars="5"
-
-                            android:stepSize=".1"
-                            android:theme="@style/RatingBar"
-                            tools:rating="3" />
+                        <ImageView
+                            android:layout_width="120dp"
+                            android:layout_height="150dp"
+                            android:scaleType="centerCrop"
+                            app:imagePath="@{movieDetail.posterPath}"
+                            tools:src="@tools:sample/avatars" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:orientation="vertical">
+                            android:gravity="center_vertical"
+                            android:orientation="vertical"
+                            android:padding="8dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="4dp"
-                                android:text="Genre"
+                                android:text="@{movieDetail.title}"
                                 android:textColor="@android:color/black"
-                                android:textSize="12sp" />
+                                android:textSize="16sp"
+                                tools:text="Avenger" />
 
-                            <com.google.android.flexbox.FlexboxLayout
+                            <RatingBar
+                                android:id="@+id/overallRating"
+                                style="@style/Widget.AppCompat.RatingBar.Indicator"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:isIndicator="false"
+                                android:max="5"
+                                android:numStars="5"
+
+                                android:stepSize=".1"
+                                android:theme="@style/RatingBar"
+                                tools:rating="3" />
+
+                            <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                app:flexDirection="row"
-                                app:flexWrap="wrap"
-                                app:movieGenreList="@{movieDetail.genres}" />
+                                android:layout_marginTop="12dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="4dp"
+                                    android:text="Genre"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="12sp" />
+
+                                <com.google.android.flexbox.FlexboxLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    app:flexDirection="row"
+                                    app:flexWrap="wrap"
+                                    app:movieGenreList="@{movieDetail.genres}" />
+
+                            </LinearLayout>
 
                         </LinearLayout>
 
                     </LinearLayout>
 
-                </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                app:cardElevation="2dp">
-
-                <LinearLayout
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:orientation="vertical">
+                    app:cardElevation="2dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="4dp"
-                        android:text="Language"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
+                        android:layout_margin="8dp"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="4dp"
-                        app:languageName="@{movieDetail.originalLanguage}"
-                        android:textSize="14sp"
-                        tools:text="English" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4dp"
+                            android:text="Language"
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp" />
 
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4dp"
+                            android:textSize="14sp"
+                            app:languageName="@{movieDetail.originalLanguage}"
+                            tools:text="English" />
 
-            </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
 
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                app:cardElevation="2dp">
-
-                <LinearLayout
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:orientation="vertical">
+                    app:cardElevation="2dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="4dp"
-                        android:text="Duration"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
+                        android:layout_margin="8dp"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="4dp"
-                        app:movieDuration="@{movieDetail.runtime}"
-                        android:textSize="14sp"
-                        tools:text="English" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4dp"
+                            android:text="Duration"
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp" />
 
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4dp"
+                            android:textSize="14sp"
+                            app:movieDuration="@{movieDetail.runtime}"
+                            tools:text="1h 2min" />
 
-            </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
 
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                app:cardElevation="2dp">
-
-                <LinearLayout
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:orientation="vertical">
+                    app:cardElevation="2dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="4dp"
-                        android:text="Synopsis"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
+                        android:layout_margin="8dp"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="4dp"
-                        android:text="@{movieDetail.overview}"
-                        android:textSize="14sp"
-                        tools:text="The movie deals with the championship-winning German soccer team of 1954. Its story is linked with two others: The family of a young boy is split due to the events in World War II, and the father returns from Russia after eleven years. The second story is about a reporter and his wife reporting from the tournament." />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4dp"
+                            android:text="Synopsis"
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp" />
 
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4dp"
+                            android:text="@{movieDetail.overview}"
+                            android:textSize="14sp"
+                            tools:text="The movie deals with the championship-winning German soccer team of 1954. Its story is linked with two others: The family of a young boy is split due to the events in World War II, and the father returns from Russia after eleven years. The second story is about a reporter and his wife reporting from the tournament." />
 
-            </androidx.cardview.widget.CardView>
+                    </LinearLayout>
 
-        </LinearLayout>
-    </ScrollView>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/bookNow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:text="BOOK NOW" />
+    </LinearLayout>
 </layout>

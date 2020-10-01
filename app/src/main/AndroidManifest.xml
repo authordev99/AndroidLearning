@@ -13,8 +13,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".view.DetailMovieActivity"
-            android:parentActivityName=".view.MainActivity"/>
+
+        <activity
+            android:name=".view.BookNowActivity">
+        </activity>
+
+        <activity
+            android:name=".view.DetailMovieActivity"/>
+
         <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
