@@ -1,11 +1,12 @@
 package com.teddybrothers.androidlearning
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
 import com.teddybrothers.androidlearning.adapter.RecyclerViewListener
 import com.teddybrothers.androidlearning.adapter.RecyclerviewAdapter
 import com.teddybrothers.androidlearning.model.Movie
@@ -28,20 +29,11 @@ class MainActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //setActionBar title
+        title = "Movies App"
+
         init()
         getMovieList()
-
-
-    }
-
-    private fun getMovieList() {
-        movieViewModel.getMoviesRepository(RELEASE_DATE_DESC, 1)
-            .observe(this, Observer { movieListResponse ->
-                val movieListResults: List<Movie>? = movieListResponse.results
-                println("list = $movieListResults")
-                listOfMovies.addAll(movieListResults!!.toList())
-                recyclerviewAdapter.updateDataSet(listOfMovies)
-            })
     }
 
     private fun init() {
@@ -55,9 +47,21 @@ class MainActivity : AppCompatActivity(),
 
     }
 
+    private fun getMovieList() {
+        movieViewModel.getMoviesRepository(RELEASE_DATE_DESC, 1)
+            .observe(this, Observer { movieListResponse ->
+                val movieListResults: List<Movie>? = movieListResponse.results
+                println("list = $movieListResults")
+                listOfMovies.addAll(movieListResults!!.toList())
+                recyclerviewAdapter.updateDataSet(listOfMovies)
+            })
+    }
+
     override fun onClickListener(item: Any, position: Int) {
         if (item is Movie) {
-            Toast.makeText(this, item.title, Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this,DetailMovieActivity::class.java).apply {
+                putExtra("movie",Gson().toJson(item))
+            })
         }
     }
 
