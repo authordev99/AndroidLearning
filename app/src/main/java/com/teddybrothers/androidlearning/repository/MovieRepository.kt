@@ -3,19 +3,18 @@ package com.teddybrothers.androidlearning.repository
 import androidx.lifecycle.MutableLiveData
 import com.teddybrothers.androidlearning.model.MovieDetail
 import com.teddybrothers.androidlearning.model.MovieListOutput
+import com.teddybrothers.androidlearning.utils.ApiInterface
 import com.teddybrothers.androidlearning.utils.RetrofitService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MovieRepository {
+class MovieRepository(val apiInterface: ApiInterface) {
     var movieList = MutableLiveData<MovieListOutput>()
     var movieDetail = MutableLiveData<MovieDetail>()
 
-
     fun getMovies(sortBy: String, page: Int): MutableLiveData<MovieListOutput> {
-        val movieListCall =
-            RetrofitService.instance().getMovieList(RetrofitService.API_KEY,sortBy =  sortBy, page = page)
+        val movieListCall = apiInterface.getMovieList(RetrofitService.API_KEY,sortBy =  sortBy, page = page)
         movieListCall.enqueue(object : Callback<MovieListOutput> {
             override fun onResponse(
                 call: Call<MovieListOutput>,
@@ -39,8 +38,7 @@ class MovieRepository {
     }
 
     fun getMovieDetail(movieId : String): MutableLiveData<MovieDetail> {
-        val movieDetailCall =
-            RetrofitService.instance().getMovieDetail(movieId,RetrofitService.API_KEY)
+        val movieDetailCall = apiInterface.getMovieDetail(movieId,RetrofitService.API_KEY)
         movieDetailCall.enqueue(object : Callback<MovieDetail> {
             override fun onResponse(
                 call: Call<MovieDetail>,

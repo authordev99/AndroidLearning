@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
@@ -18,6 +17,7 @@ import com.teddybrothers.androidlearning.model.Movie
 import com.teddybrothers.androidlearning.model.MovieListOutput
 import com.teddybrothers.androidlearning.viewmodel.MovieViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.android.ext.android.inject
 
 
 class MainActivity : AppCompatActivity(),
@@ -28,11 +28,10 @@ class MainActivity : AppCompatActivity(),
     }
 
     private lateinit var recyclerviewAdapter: RecyclerviewAdapter
-    lateinit var movieViewModel: MovieViewModel
     private var currentPage: Int = PAGE_START
     private var isLastPage = false
     private var isLoading = false
-
+    var movieViewModel = inject<MovieViewModel>().value
     var itemCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,11 +47,8 @@ class MainActivity : AppCompatActivity(),
 
     private fun init() {
 
-        swipeRefreshLayout.setOnRefreshListener(this)
 
-        movieViewModel = ViewModelProviders.of(this).get<MovieViewModel>(
-            MovieViewModel::class.java
-        )
+        swipeRefreshLayout.setOnRefreshListener(this)
 
         val linearLayoutManager = LinearLayoutManager(this)
         recyclerview.layoutManager = linearLayoutManager
@@ -107,7 +103,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun SwipeRefreshLayout.disableRefresh() {
-        postDelayed({ isRefreshing = false }, 1500)
+        postDelayed({ isRefreshing = false }, 1000)
     }
 
     private fun enableRefresh() {

@@ -13,12 +13,14 @@ import com.teddybrothers.androidlearning.databinding.ActivityDetailMovieBinding
 import com.teddybrothers.androidlearning.model.Movie
 import com.teddybrothers.androidlearning.viewmodel.MovieViewModel
 import kotlinx.android.synthetic.main.activity_detail_movie.*
+import org.koin.android.ext.android.inject
 
 class DetailMovieActivity : AppCompatActivity() {
 
     lateinit var movie: Movie
     lateinit var binding: ActivityDetailMovieBinding
-    lateinit var movieViewModel: MovieViewModel
+    var movieViewModel = inject<MovieViewModel>().value
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -43,9 +45,6 @@ class DetailMovieActivity : AppCompatActivity() {
         //setActionBar title
         title = movie.title
 
-        movieViewModel = ViewModelProviders.of(this).get<MovieViewModel>(
-            MovieViewModel::class.java
-        )
         getMovieDetail(movie.id.toString())
     }
 

@@ -7,10 +7,10 @@ import com.teddybrothers.androidlearning.model.MovieListOutput
 import com.teddybrothers.androidlearning.repository.MovieRepository
 
 
-class MovieViewModel : ViewModel() {
-    private var repository: MovieRepository = MovieRepository()
+class MovieViewModel(val repository: MovieRepository) : ViewModel() {
+
     private var listOfMovies = MutableLiveData<MovieListOutput>()
-    private var movieDetail = MutableLiveData<MovieDetail>()
+    var movieDetail = MutableLiveData<MovieDetail>()
 
     fun getMoviesRepository(sortBy: String, page: Int): MutableLiveData<MovieListOutput> {
         listOfMovies = loadMoviesData(sortBy, page)
@@ -23,10 +23,11 @@ class MovieViewModel : ViewModel() {
 
     fun getMovieDetailRepository(movieId: String): MutableLiveData<MovieDetail> {
         movieDetail = loadMovieDetail(movieId)
+        println("movie detail = ${movieDetail.value}")
         return movieDetail
     }
 
-    private fun loadMovieDetail(movieId : String): MutableLiveData<MovieDetail> {
+     fun loadMovieDetail(movieId : String): MutableLiveData<MovieDetail> {
         return repository.getMovieDetail(movieId)
     }
 }
