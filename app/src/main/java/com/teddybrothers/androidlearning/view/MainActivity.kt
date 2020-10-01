@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.google.gson.Gson
 import com.teddybrothers.androidlearning.R
 import com.teddybrothers.androidlearning.adapter.RecyclerViewListener
@@ -16,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity(),
-    RecyclerViewListener {
+    RecyclerViewListener, OnRefreshListener {
 
     companion object {
         const val RELEASE_DATE_DESC = "release_date.desc"
@@ -32,12 +34,14 @@ class MainActivity : AppCompatActivity(),
 
         //setActionBar title
         title = "Movies App"
-
         init()
-        getMovieList()
+        enableRefresh()
     }
 
+
     private fun init() {
+
+        swipeRefreshLayout.setOnRefreshListener(this)
         movieViewModel = ViewModelProviders.of(this).get<MovieViewModel>(
             MovieViewModel::class.java
         )
@@ -53,9 +57,21 @@ class MainActivity : AppCompatActivity(),
             .observe(this, Observer { movieListResponse ->
                 val movieListResults: List<Movie>? = movieListResponse.results
                 println("list = $movieListResults")
+                listOfMovies.clear()
                 listOfMovies.addAll(movieListResults!!.toList())
                 recyclerviewAdapter.updateDataSet(listOfMovies)
+                swipeRefreshLayout.disableRefresh()
             })
+    }
+
+    private fun SwipeRefreshLayout.disableRefresh(){
+        postDelayed({ isRefreshing = false },1500)
+    }
+
+    private fun enableRefresh(){
+        swipeRefreshLayout.post {
+            swipeRefreshLayout.isRefreshing = true
+            getMovieList()}
     }
 
     override fun onClickListener(item: Any, position: Int) {
@@ -65,6 +81,10 @@ class MainActivity : AppCompatActivity(),
                 putExtra("movie",Gson().toJson(item))
             })
         }
+    }
+
+    override fun onRefresh() {
+        enableRefresh()
     }
 
 }
