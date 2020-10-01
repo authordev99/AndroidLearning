@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            tools:context=".DetailMovieActivity">
+            tools:context=".view.DetailMovieActivity">
 
             <ImageView
                 android:layout_width="match_parent"

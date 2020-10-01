@@ -1,4 +1,4 @@
-package com.teddybrothers.androidlearning
+package com.teddybrothers.androidlearning.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
+import com.teddybrothers.androidlearning.R
 import com.teddybrothers.androidlearning.adapter.RecyclerViewListener
 import com.teddybrothers.androidlearning.adapter.RecyclerviewAdapter
 import com.teddybrothers.androidlearning.model.Movie
@@ -59,7 +60,8 @@ class MainActivity : AppCompatActivity(),
 
     override fun onClickListener(item: Any, position: Int) {
         if (item is Movie) {
-            startActivity(Intent(this,DetailMovieActivity::class.java).apply {
+            startActivity(Intent(this,
+                DetailMovieActivity::class.java).apply {
                 putExtra("movie",Gson().toJson(item))
             })
         }

@@ -1,4 +1,4 @@
-package com.teddybrothers.androidlearning
+package com.teddybrothers.androidlearning.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.gson.Gson
+import com.teddybrothers.androidlearning.R
 import com.teddybrothers.androidlearning.databinding.ActivityDetailMovieBinding
 import com.teddybrothers.androidlearning.model.Genre
 import com.teddybrothers.androidlearning.model.Movie
@@ -20,7 +21,9 @@ class DetailMovieActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail_movie)
+        binding = DataBindingUtil.setContentView(this,
+            R.layout.activity_detail_movie
+        )
 
         //retrieved value from list
         intent.extras?.apply {
