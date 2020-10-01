@@ -32,17 +32,16 @@ object BindingUtils {
     }
 
     @JvmStatic
-    @BindingAdapter(value = ["genreIdList","movieGenreList"])
-    fun FlexboxLayout.setMovieGenre(genreList: ArrayList<Int>?, movieGenreList: ArrayList<Genre>?) {
+    @BindingAdapter(value = ["movieGenreList"])
+    fun FlexboxLayout.setMovieGenre( movieGenreList: List<Genre>?) {
         this.removeAllViews()
 
         if (!movieGenreList.isNullOrEmpty()) {
-            genreList?.forEach { genreId ->
-                val genreName = movieGenreList.find { it.id == genreId }
+            movieGenreList.forEach { movieGenre ->
                 DataBindingUtil.bind<ListItemMovieGenreBinding>(
                     LayoutInflater.from(context).inflate(R.layout.list_item_movie_genre, null)
                 )?.apply {
-                    genre = genreName?.name
+                    genre = movieGenre.name
                     (root as TextView).setLayoutParamsMovieGenre()
                     this@setMovieGenre.addView(root)
                 }
@@ -53,10 +52,27 @@ object BindingUtils {
     @JvmStatic
     @BindingAdapter("languageName")
     fun TextView.setLanguageName(languageCode: String?) {
-        languageCode.let {
-            val locale = Locale(it!!)
-            this.text = locale.displayLanguage
+        if (languageCode.isNullOrBlank())
+            return
+
+        val locale = Locale(languageCode)
+        this.text = locale.displayLanguage
+
+    }
+
+
+    @JvmStatic
+    @BindingAdapter("movieDuration")
+    fun TextView.setDuration(runtime: Int?) {
+        val duration = StringBuffer()
+        if (runtime!=null)
+        {
+            val hour = runtime / 60
+            val minute = runtime % 60
+            duration.append(hour).append("h ").append(minute).append("min")
+            this.text = duration
         }
+
 
     }
 
