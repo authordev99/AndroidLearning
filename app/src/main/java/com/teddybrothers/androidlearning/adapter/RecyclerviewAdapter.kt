@@ -50,12 +50,13 @@ class RecyclerviewAdapter(private val listener: RecyclerViewListener) :
 
     fun addLoading() {
         isLoaderVisible = true
-        notifyItemInserted(movieList.size)
+        movieList.add(Movie())
+        notifyItemInserted(movieList.size-1)
     }
 
     fun removeLoading() {
         isLoaderVisible = false
-        val position: Int = movieList.size - 1
+        val position: Int = movieList.size -1
         movieList.removeAt(position)
         notifyItemRemoved(position)
 
@@ -73,11 +74,13 @@ class RecyclerviewAdapter(private val listener: RecyclerViewListener) :
         }
     }
 
-    override fun getItemCount() = movieList.size
+    override fun getItemCount() : Int {
+        return movieList.size
+    }
 
-    fun updateDataSet(movieList: List<Movie>) {
-        if (movieList.isNotEmpty()) {
-            this.movieList = movieList as ArrayList<Movie>
+    fun addItems(movieList: List<Movie>?) {
+        if (!movieList.isNullOrEmpty()) {
+            this.movieList.addAll(movieList)
         }
         notifyDataSetChanged()
     }

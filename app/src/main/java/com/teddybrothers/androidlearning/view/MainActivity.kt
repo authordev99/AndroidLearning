@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity(),
     }
 
     private lateinit var recyclerviewAdapter: RecyclerviewAdapter
-    private var listOfMovies = ArrayList<Movie>()
     lateinit var movieViewModel: MovieViewModel
     private var currentPage: Int = PAGE_START
     private var isLastPage = false
@@ -83,16 +82,17 @@ class MainActivity : AppCompatActivity(),
         val call = movieViewModel.getMoviesRepository(RELEASE_DATE_DESC, currentPage)
         val observer = Observer<MovieListOutput> { movieListResponse ->
             if (movieListResponse != null) {
-                val movieListResults: List<Movie>? = movieListResponse.results
-                listOfMovies.addAll(movieListResults!!.toList())
+                val movieListResults = movieListResponse.results
+
                 swipeRefreshLayout.disableRefresh()
 
-                if (currentPage != PAGE_START)
+                if (currentPage != PAGE_START) {
                     recyclerviewAdapter.removeLoading()
+                }
 
-                recyclerviewAdapter.updateDataSet(listOfMovies)
-                // check weather is last page or not
-                if (movieListResults.isNotEmpty()) {
+                recyclerviewAdapter.addItems(movieListResults)
+
+                if (currentPage < movieListResponse.totalPages) {
                     recyclerviewAdapter.addLoading()
                 } else {
                     isLastPage = true
@@ -133,7 +133,6 @@ class MainActivity : AppCompatActivity(),
         currentPage = PAGE_START
         isLastPage = false
         recyclerviewAdapter.clear()
-        listOfMovies.clear()
         enableRefresh()
     }
 
