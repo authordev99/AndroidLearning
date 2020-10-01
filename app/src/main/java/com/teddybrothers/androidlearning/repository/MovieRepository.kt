@@ -2,6 +2,7 @@ package com.teddybrothers.androidlearning.repository
 
 import androidx.lifecycle.MutableLiveData
 import com.teddybrothers.androidlearning.model.GenreListOutput
+import com.teddybrothers.androidlearning.model.MovieDetail
 import com.teddybrothers.androidlearning.utils.RetrofitService
 import com.teddybrothers.androidlearning.model.MovieListOutput
 import retrofit2.Call
@@ -11,6 +12,7 @@ import retrofit2.Response
 class MovieRepository {
     var movieList = MutableLiveData<MovieListOutput>()
     var genreList = MutableLiveData<GenreListOutput>()
+    var movieDetail = MutableLiveData<MovieDetail>()
 
 
     fun getMovies(sortBy: String, page: Int): MutableLiveData<MovieListOutput> {
@@ -36,6 +38,31 @@ class MovieRepository {
         })
 
         return movieList
+    }
+
+    fun getMovieDetail(movieId : String): MutableLiveData<MovieDetail> {
+        val movieDetailCall =
+            RetrofitService.instance().getMovieDetail(movieId,RetrofitService.API_KEY)
+        movieDetailCall.enqueue(object : Callback<MovieDetail> {
+            override fun onResponse(
+                call: Call<MovieDetail>,
+                response: Response<MovieDetail>
+            ) {
+                println("onResponse = $response")
+                if (response.isSuccessful) {
+
+                    movieDetail.value = response.body()
+                }
+
+            }
+
+            override fun onFailure(call: Call<MovieDetail>, t: Throwable) {
+                println("onFailure = $t")
+                movieDetail.postValue(null);
+            }
+        })
+
+        return movieDetail
     }
 
     fun getGenres() : MutableLiveData<GenreListOutput> {
