@@ -4,17 +4,23 @@ import androidx.lifecycle.MutableLiveData
 import com.teddybrothers.androidlearning.model.MovieDetail
 import com.teddybrothers.androidlearning.model.MovieListOutput
 import com.teddybrothers.androidlearning.utils.ApiInterface
-import com.teddybrothers.androidlearning.utils.RetrofitService
+import com.teddybrothers.androidlearning.utils.NetworkUtils
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MovieRepository(val apiInterface: ApiInterface) {
+
+open class MovieRepository(private val apiInterface: ApiInterface) {
     var movieList = MutableLiveData<MovieListOutput>()
     var movieDetail = MutableLiveData<MovieDetail>()
+    var movieDetailRx = MutableLiveData<MovieDetail>()
+    var compositeDisposable = CompositeDisposable()
 
     fun getMovies(sortBy: String, page: Int): MutableLiveData<MovieListOutput> {
-        val movieListCall = apiInterface.getMovieList(RetrofitService.API_KEY,sortBy =  sortBy, page = page)
+        val movieListCall = apiInterface.getMovieList(NetworkUtils.API_KEY,sortBy =  sortBy, page = page)
         movieListCall.enqueue(object : Callback<MovieListOutput> {
             override fun onResponse(
                 call: Call<MovieListOutput>,
@@ -38,7 +44,7 @@ class MovieRepository(val apiInterface: ApiInterface) {
     }
 
     fun getMovieDetail(movieId : String): MutableLiveData<MovieDetail> {
-        val movieDetailCall = apiInterface.getMovieDetail(movieId,RetrofitService.API_KEY)
+        val movieDetailCall = apiInterface.getMovieDetail(movieId,NetworkUtils.API_KEY)
         movieDetailCall.enqueue(object : Callback<MovieDetail> {
             override fun onResponse(
                 call: Call<MovieDetail>,
@@ -59,6 +65,18 @@ class MovieRepository(val apiInterface: ApiInterface) {
         })
 
         return movieDetail
+    }
+
+
+    fun getMovieDetailRx(movieId : String) : MutableLiveData<MovieDetail> {
+        val disposable = apiInterface
+            .getMovieDetailRx(movieId,NetworkUtils.API_KEY)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { result -> movieDetailRx.value = result }
+        compositeDisposable.add(disposable)
+
+        return movieDetailRx
     }
 
 }

@@ -6,7 +6,6 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.google.gson.Gson
 import com.teddybrothers.androidlearning.R
 import com.teddybrothers.androidlearning.databinding.ActivityDetailMovieBinding
@@ -49,7 +48,7 @@ class DetailMovieActivity : AppCompatActivity() {
     }
 
     private fun getMovieDetail(movieId : String) {
-        movieViewModel.getMovieDetailRepository(movieId)
+        movieViewModel.getMovieDetailRepositoryRx(movieId)
             .observe(this, Observer { movieDetailResponse ->
                 binding.movieDetail = movieDetailResponse
             })

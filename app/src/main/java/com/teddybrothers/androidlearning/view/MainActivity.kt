@@ -20,8 +20,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 
 
-class MainActivity : AppCompatActivity(),
-    RecyclerViewListener, OnRefreshListener {
+class MainActivity : AppCompatActivity(), RecyclerViewListener, OnRefreshListener {
 
     companion object {
         const val RELEASE_DATE_DESC = "release_date.desc"
@@ -31,7 +30,7 @@ class MainActivity : AppCompatActivity(),
     private var currentPage: Int = PAGE_START
     private var isLastPage = false
     private var isLoading = false
-    var movieViewModel = inject<MovieViewModel>().value
+    private val movieViewModel by inject<MovieViewModel>()
     var itemCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,32 +45,29 @@ class MainActivity : AppCompatActivity(),
 
 
     private fun init() {
-
-
         swipeRefreshLayout.setOnRefreshListener(this)
-
         val linearLayoutManager = LinearLayoutManager(this)
-        recyclerview.layoutManager = linearLayoutManager
-        recyclerviewAdapter =
-            RecyclerviewAdapter(this)
-        recyclerview.adapter = recyclerviewAdapter
+        recyclerviewAdapter = RecyclerviewAdapter(this)
 
-        recyclerview.addOnScrollListener(object : PaginationScrollListener(linearLayoutManager) {
-            override fun loadMoreItems() {
-                isLoading = true
-                currentPage++
-                getMovieList()
-            }
+        recyclerview.apply {
+            layoutManager = linearLayoutManager
+            adapter = recyclerviewAdapter
+            addOnScrollListener(object : PaginationScrollListener(linearLayoutManager) {
+                override fun loadMoreItems() {
+                    isLoading = true
+                    currentPage++
+                    getMovieList()
+                }
 
-            override fun isLastPage(): Boolean {
-                return isLastPage
-            }
+                override fun isLastPage(): Boolean {
+                    return isLastPage
+                }
 
-            override fun isLoading(): Boolean {
-                return isLoading
-            }
-        });
-
+                override fun isLoading(): Boolean {
+                    return isLoading
+                }
+            })
+        }
     }
 
     private fun getMovieList() {
@@ -97,6 +93,7 @@ class MainActivity : AppCompatActivity(),
             }
 
         }
+
         if (!call.hasActiveObservers()) {
             call.observe(this, observer)
         }

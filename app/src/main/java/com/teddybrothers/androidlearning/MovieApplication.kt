@@ -1,7 +1,7 @@
 package com.teddybrothers.androidlearning
 
 import android.app.Application
-import com.teddybrothers.androidlearning.utils.viewModelModule
+import com.teddybrothers.androidlearning.utils.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -11,7 +11,7 @@ class MovieApplication : Application() {
         startKoin {
             androidContext(this@MovieApplication)
             modules(listOf(
-                viewModelModule
+                appModule
             ))
         }
     }
