@@ -13,6 +13,7 @@ import com.google.android.flexbox.FlexboxLayout
 import com.teddybrothers.androidlearning.R
 import com.teddybrothers.androidlearning.databinding.ListItemMovieGenreBinding
 import com.teddybrothers.androidlearning.model.Genre
+import com.teddybrothers.androidlearning.utils.BindingUtils.setDuration
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -33,7 +34,7 @@ object BindingUtils {
 
     @JvmStatic
     @BindingAdapter(value = ["movieGenreList"])
-    fun FlexboxLayout.setMovieGenre( movieGenreList: List<Genre>?) {
+    fun FlexboxLayout.setMovieGenre(movieGenreList: List<Genre>?) {
         this.removeAllViews()
 
         if (!movieGenreList.isNullOrEmpty()) {
@@ -64,16 +65,10 @@ object BindingUtils {
     @JvmStatic
     @BindingAdapter("movieDuration")
     fun TextView.setDuration(runtime: Int?) {
-        val duration = StringBuffer()
-        if (runtime!=null)
-        {
-            val hour = runtime / 60
-            val minute = runtime % 60
-            duration.append(hour).append("h ").append(minute).append("min")
-            this.text = duration
+        if (runtime!=null){
+            this.text = setMovieDuration(runtime)
+            println("4 dp test = "+4.toDp(context))
         }
-
-
     }
 
     private fun TextView.setLayoutParamsMovieGenre() {
@@ -86,7 +81,15 @@ object BindingUtils {
         }
     }
 
-    private fun Int.toDp(context: Context): Int {
+    fun setMovieDuration(runtime: Int): StringBuffer {
+        val duration = StringBuffer()
+        val hour = runtime / 60
+        val minute = runtime % 60
+        duration.append(hour).append("h ").append(minute).append("min")
+        return duration
+    }
+
+    fun Int.toDp(context: Context): Int {
         return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
             this.toFloat(),
