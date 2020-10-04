@@ -2,16 +2,16 @@ package com.teddybrothers.androidlearning.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import com.google.gson.Gson
 import com.teddybrothers.androidlearning.R
-import com.teddybrothers.androidlearning.databinding.ActivityDetailMovieBinding
+import com.teddybrothers.androidlearning.databinding.ActivityMovieDetailsBinding
 import com.teddybrothers.androidlearning.model.Movie
+import com.teddybrothers.androidlearning.utils.BaseActivity
 import com.teddybrothers.androidlearning.viewmodel.MovieViewModel
-import kotlinx.android.synthetic.main.activity_detail_movie.*
+import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.activity_movie_details.*
+import kotlinx.android.synthetic.main.toolbar.*
 import org.koin.android.ext.android.inject
 
 class MovieDetailsActivity : BaseActivity() {
@@ -21,27 +21,25 @@ class MovieDetailsActivity : BaseActivity() {
     }
 
     lateinit var movie: Movie
-    lateinit var binding: ActivityDetailMovieBinding
-    var movieViewModel = inject<MovieViewModel>().value
+    lateinit var binding: ActivityMovieDetailsBinding
+    private val movieViewModel by inject<MovieViewModel>()
+    private val compositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.setContentView(this,
-            R.layout.activity_detail_movie
+        binding = DataBindingUtil.setContentView(
+            this,
+            R.layout.activity_movie_details
         )
-        actionBar?.setDisplayHomeAsUpEnabled(true);
+
         //retrieved value from list
         intent.extras?.apply {
-            movie = Gson().fromJson(getString("movie"), Movie::class.java)
-
+            movie = Gson().fromJson(getString(PARAM_MOVIE), Movie::class.java)
         }
 
         init()
 
-        bookNow.setOnClickListener {
-            startActivity(Intent(this,BookNowActivity::class.java))
-        }
     }
 
     private fun init() {
@@ -60,21 +58,21 @@ class MovieDetailsActivity : BaseActivity() {
         getMovieDetail(movie.id.toString())
     }
 
-    private fun getMovieDetail(movieId : String) {
-        movieViewModel.getMovieDetailRepositoryRx(movieId)
-            .observe(this, Observer { movieDetailResponse ->
-                binding.movieDetail = movieDetailResponse
-            })
+    private fun getMovieDetail(movieId: String) {
+        val observableMovieDetail = movieViewModel.getMovieDetailRepositoryRx(movieId)
+            .subscribe({ movieDetail ->
+                println("Success = $movieDetail")
+                binding.movieDetail = movieDetail
+            }, { error ->
+                println("Error = $error")
+            }, { println("Complete") })
+
+        compositeDisposable.add(observableMovieDetail)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val itemId = item.itemId
-        if (itemId == android.R.id.home) // Press Back Icon
-        {
-            finish()
-        }
-        return super.onOptionsItemSelected(item)
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.dispose()
     }
-
 
 }

@@ -5,14 +5,14 @@ import androidx.lifecycle.ViewModel
 import com.teddybrothers.androidlearning.model.MovieDetail
 import com.teddybrothers.androidlearning.model.MovieListOutput
 import com.teddybrothers.androidlearning.repository.MovieRepository
-import org.koin.core.KoinComponent
+import io.reactivex.Observable
 
 
 class MovieViewModel(val repository: MovieRepository) : ViewModel() {
 
     var listOfMovies = MutableLiveData<MovieListOutput>()
     var movieDetail = MutableLiveData<MovieDetail>()
-    var movieDetailRx = MutableLiveData<MovieDetail>()
+    lateinit var movieDetailRx : Observable<MovieDetail>
 
     fun getMoviesRepository(sortBy: String, page: Int): MutableLiveData<MovieListOutput> {
         listOfMovies = loadMoviesData(sortBy, page)
@@ -32,12 +32,12 @@ class MovieViewModel(val repository: MovieRepository) : ViewModel() {
         return repository.getMovieDetail(movieId)
     }
 
-    fun getMovieDetailRepositoryRx(movieId: String): MutableLiveData<MovieDetail> {
+    fun getMovieDetailRepositoryRx(movieId: String): Observable<MovieDetail> {
         movieDetailRx = loadMovieDetailRx(movieId)
         return movieDetailRx
     }
 
-    fun loadMovieDetailRx(movieId: String): MutableLiveData<MovieDetail> {
+    fun loadMovieDetailRx(movieId: String): Observable<MovieDetail> {
         return repository.getMovieDetailRx(movieId)
     }
 }

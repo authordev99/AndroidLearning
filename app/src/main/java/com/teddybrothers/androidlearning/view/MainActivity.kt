@@ -38,8 +38,6 @@ class MainActivity : AppCompatActivity(), RecyclerViewListener, OnRefreshListene
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //setActionBar title
-        title = "Movies App"
         init()
         enableRefresh()
     }
@@ -120,9 +118,9 @@ class MainActivity : AppCompatActivity(), RecyclerViewListener, OnRefreshListene
         if (item is Movie) {
             startActivity(Intent(
                 this,
-                DetailMovieActivity::class.java
+                MovieDetailsActivity::class.java
             ).apply {
-                putExtra("movie", Gson().toJson(item))
+                putExtra(MovieDetailsActivity.PARAM_MOVIE, Gson().toJson(item))
             })
         }
     }

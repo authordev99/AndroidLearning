@@ -5,6 +5,7 @@ import com.teddybrothers.androidlearning.model.MovieDetail
 import com.teddybrothers.androidlearning.model.MovieListOutput
 import com.teddybrothers.androidlearning.utils.ApiInterface
 import com.teddybrothers.androidlearning.utils.NetworkUtils
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -68,15 +69,11 @@ open class MovieRepository(private val apiInterface: ApiInterface) {
     }
 
 
-    fun getMovieDetailRx(movieId : String) : MutableLiveData<MovieDetail> {
-        val disposable = apiInterface
+    fun getMovieDetailRx(movieId : String) : Observable<MovieDetail> {
+        return apiInterface
             .getMovieDetailRx(movieId,NetworkUtils.API_KEY)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { result -> movieDetailRx.value = result }
-        compositeDisposable.add(disposable)
-
-        return movieDetailRx
     }
 
 }
