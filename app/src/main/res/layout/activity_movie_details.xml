@@ -106,7 +106,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginBottom="4dp"
-                                    android:text="Genre"
+                                    android:text="@string/app_genre"
                                     android:textColor="@android:color/black"
                                     android:textSize="12sp" />
 
@@ -148,7 +148,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="4dp"
-                                android:text="Language"
+                                android:text="@string/app_language"
                                 android:textColor="@android:color/black"
                                 android:textSize="16sp" />
 
@@ -182,7 +182,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="4dp"
-                                android:text="Duration"
+                                android:text="@string/app_duration"
                                 android:textColor="@android:color/black"
                                 android:textSize="16sp" />
 
@@ -215,7 +215,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="4dp"
-                            android:text="Synopsis"
+                            android:text="@string/app_synopsis"
                             android:textColor="@android:color/black"
                             android:textSize="16sp" />
 
@@ -239,7 +239,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            android:textColor="@android:color/white"
-            android:text="BOOK NOW" />
+            android:text="@string/app_book_now"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 </layout>

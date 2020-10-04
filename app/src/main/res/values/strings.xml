@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">AndroidLearning</string>
+    <string name="app_name">Movie Apps</string>
+    <string name="app_synopsis">Synopsis</string>
+    <string name="app_duration">Duration</string>
+    <string name="app_genre">Genre</string>
+    <string name="app_language">Language</string>
+    <string name="app_book_now">Book Now</string>
 </resources>
