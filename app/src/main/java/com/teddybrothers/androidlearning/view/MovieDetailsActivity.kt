@@ -14,7 +14,11 @@ import com.teddybrothers.androidlearning.viewmodel.MovieViewModel
 import kotlinx.android.synthetic.main.activity_detail_movie.*
 import org.koin.android.ext.android.inject
 
-class DetailMovieActivity : AppCompatActivity() {
+class MovieDetailsActivity : BaseActivity() {
+
+    companion object {
+        const val PARAM_MOVIE = "movie"
+    }
 
     lateinit var movie: Movie
     lateinit var binding: ActivityDetailMovieBinding
@@ -41,8 +45,17 @@ class DetailMovieActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        //setActionBar title
-        title = movie.title
+        setSupportActionBar(toolbar)
+
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeButtonEnabled(true)
+            title = movie.title
+        }
+
+        bookNow.setOnClickListener {
+            startActivity(Intent(this, BookNowActivity::class.java))
+        }
 
         getMovieDetail(movie.id.toString())
     }

@@ -17,6 +17,7 @@ import com.teddybrothers.androidlearning.model.Movie
 import com.teddybrothers.androidlearning.model.MovieListOutput
 import com.teddybrothers.androidlearning.viewmodel.MovieViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.toolbar.*
 import org.koin.android.ext.android.inject
 
 
@@ -45,6 +46,11 @@ class MainActivity : AppCompatActivity(), RecyclerViewListener, OnRefreshListene
 
 
     private fun init() {
+        setSupportActionBar(toolbar)
+        supportActionBar?.apply {
+            title = "Movies App"
+        }
+
         swipeRefreshLayout.setOnRefreshListener(this)
         val linearLayoutManager = LinearLayoutManager(this)
         recyclerviewAdapter = RecyclerviewAdapter(this)

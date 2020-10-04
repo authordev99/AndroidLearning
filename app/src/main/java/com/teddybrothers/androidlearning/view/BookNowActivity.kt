@@ -7,27 +7,38 @@ import android.view.MenuItem
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.teddybrothers.androidlearning.R
+import com.teddybrothers.androidlearning.utils.BaseActivity
+import com.teddybrothers.androidlearning.utils.NetworkUtils
 import kotlinx.android.synthetic.main.activity_book_now.*
+import kotlinx.android.synthetic.main.toolbar.*
 
-class BookNowActivity : AppCompatActivity() {
+class BookNowActivity : BaseActivity() {
 
-    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_now)
 
-        title = "Book Now"
+        init()
         setupWebView()
     }
 
-    fun setupWebView(){
+    private fun init() {
+        setSupportActionBar(toolbar)
+
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeButtonEnabled(true)
+            title = getString(R.string.app_book_now)
+        }
+    }
+
+    private fun setupWebView() {
         webView.webViewClient = WebViewClient()
         webView.apply {
             settings.domStorageEnabled = true
-            loadUrl("https://www.cathaycineplexes.com.sg/")
+            loadUrl(NetworkUtils.BOOK_NOW_URL)
             webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                     view.loadUrl(url)
@@ -41,7 +52,12 @@ class BookNowActivity : AppCompatActivity() {
                     }
                 }
 
-                override fun onReceivedError(view: WebView, errorCode: Int, description: String, failingUrl: String) {
+                override fun onReceivedError(
+                    view: WebView,
+                    errorCode: Int,
+                    description: String,
+                    failingUrl: String
+                ) {
                     if (loading != null && loading.isVisible) {
                         loading.makeGone()
                     }
@@ -57,22 +73,11 @@ class BookNowActivity : AppCompatActivity() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val itemId = item.itemId
-        if (itemId == android.R.id.home) // Press Back Icon
-        {
-            finish()
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    fun View.makeGone()
-    {
+    fun View.makeGone() {
         isVisible = false
     }
 
-    fun View.makeVisible()
-    {
+    fun View.makeVisible() {
         isVisible = true
     }
 
