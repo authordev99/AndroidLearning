@@ -19,12 +19,14 @@ import kotlin.collections.ArrayList
 
 object BindingUtils {
 
+    private const val IMAGE_URL = "https://image.tmdb.org/t/p/w400"
+
     @JvmStatic
     @BindingAdapter("imagePath")
     fun ImageView.loadImage(imagePath: String?) {
         println(imagePath)
         imagePath.let {
-            val imageUrl = "https://image.tmdb.org/t/p/w400".plus(imagePath)
+            val imageUrl = IMAGE_URL.plus(imagePath)
             Glide.with(context)
                 .load(imageUrl)
                 .into(this)
